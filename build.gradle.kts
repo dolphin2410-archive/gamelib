@@ -20,6 +20,7 @@ allprojects {
         implementation(kotlin("stdlib"))
         implementation("io.github.monun:invfx-api:3.1.0")
         implementation("io.github.teamcheeze:jaw:1.0.4")
+        implementation("io.github.monun:kommand-api:2.8.0")
     }
 }
 

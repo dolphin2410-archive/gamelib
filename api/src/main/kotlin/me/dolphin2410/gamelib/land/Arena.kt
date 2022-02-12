@@ -4,6 +4,9 @@ import org.bukkit.World
 import org.bukkit.entity.Player
 
 abstract class Arena(val world: World) {
+    val isFull: Boolean
+        get() = arenaQueue.counter == maxPlayers
+
     var maxPlayers = 20
         set(value) {
             arenaQueue.maxPlayers = value

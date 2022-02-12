@@ -1,7 +1,10 @@
-package me.dolphin2410.sample
+package me.dolphin2410.sample.ability
 
 import me.dolphin2410.gamelib.GameLibAPI
 import me.dolphin2410.gamelib.abiity.ItemAbility
+import me.dolphin2410.sample.Items
+import me.dolphin2410.sample.Recipes
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Bat
 import org.bukkit.entity.LivingEntity
@@ -14,6 +17,7 @@ import org.bukkit.inventory.meta.Damageable
 class MortisAbility: ItemAbility(Items.mortisShovel.clone()) {
     override fun onInit() {
         isGlobalAbility = true
+        Bukkit.getServer().addRecipe(Recipes.mortis)
     }
 
     override fun onClick(e: PlayerInteractEvent) {
@@ -36,7 +40,7 @@ class MortisAbility: ItemAbility(Items.mortisShovel.clone()) {
                     counter++
                 }
             }
-        }.runTaskTimer(me.dolphin2410.gamelib.GameLibAPI.plugin, 0, 3)
+        }.runTaskTimer(GameLibAPI.plugin, 0, 3)
     }
 
     private fun launchProjectile(velocity: Vector, location: Location, mortis: Player) {
@@ -59,6 +63,6 @@ class MortisAbility: ItemAbility(Items.mortisShovel.clone()) {
                     cancel()
                 }
             }
-        }.runTaskTimer(me.dolphin2410.gamelib.GameLibAPI.plugin, 0, 1)
+        }.runTaskTimer(GameLibAPI.plugin, 0, 1)
     }
 }

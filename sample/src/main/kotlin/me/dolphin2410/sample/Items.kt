@@ -2,9 +2,11 @@ package me.dolphin2410.sample
 
 import net.kyori.adventure.text.Component.text
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 object Items {
     val mortisShovel = ItemStack(Material.STONE_SHOVEL).apply {
@@ -74,6 +76,53 @@ object Items {
     val magicFlesh = ItemStack(Material.ROTTEN_FLESH).apply {
         editMeta { meta ->
             meta.displayName(text("Magic Flesh"))
+            meta.addEnchant(Enchantment.KNOCKBACK, 1, false)
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        }
+    }
+
+    val magicApple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
+        editMeta { meta ->
+            meta.displayName(text("Magic Apple"))
+        }
+    }
+
+    val powerBeacon = ItemStack(Material.BEACON).apply {
+        editMeta { meta ->
+            meta.displayName(text("Power Beacon"))
+            meta.addEnchant(Enchantment.KNOCKBACK, 1, false)
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        }
+    }
+
+    val skellySword = ItemStack(Material.DIAMOND_SWORD).apply {
+        editMeta { meta ->
+            meta.displayName(text("Skelly Sword"))
+            meta.addEnchant(Enchantment.FIRE_ASPECT, 1, false)
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        }
+    }
+
+    val magicFishingRod = ItemStack(Material.FISHING_ROD).apply {
+        editMeta { meta ->
+            meta.displayName(text("Magic Fishing Rod"))
+            meta.addEnchant(Enchantment.LURE, 3, false)
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        }
+    }
+
+    val ultimateFurnace = ItemStack(Material.FURNACE).apply {
+        editMeta { meta ->
+            meta.displayName(text("Ultimate Furnace"))
+            meta.addEnchant(Enchantment.KNOCKBACK, 1, false)
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+            meta.persistentDataContainer.set(NamespacedKey.minecraft("uses_left"), PersistentDataType.INTEGER, 15)
+        }
+    }
+
+    val magicGoldenCarrot = ItemStack(Material.GOLDEN_CARROT).apply {
+        editMeta { meta ->
+            meta.displayName(text("Carrot of Pigmen"))
             meta.addEnchant(Enchantment.KNOCKBACK, 1, false)
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         }

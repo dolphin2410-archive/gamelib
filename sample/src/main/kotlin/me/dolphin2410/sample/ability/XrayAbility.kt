@@ -1,8 +1,10 @@
-package me.dolphin2410.sample
+package me.dolphin2410.sample.ability
 
 import me.dolphin2410.gamelib.abiity.ItemAbility
 import io.github.monun.invfx.InvFX.frame
 import io.github.monun.invfx.openFrame
+import me.dolphin2410.sample.Items
+import me.dolphin2410.sample.Recipes
 import net.kyori.adventure.text.Component.text
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -14,10 +16,12 @@ import org.bukkit.potion.PotionEffectType
 
 class XrayAbility: ItemAbility(Items.xray.clone()) {
     override fun onInit() {
+        Bukkit.getServer().addRecipe(Recipes.xray)
         isGlobalAbility = true
     }
 
     override fun onClick(e: PlayerInteractEvent) {
+        e.item!!.amount--
         val frame = frame(1, text("Choose Who to Xray")) {
             list(1, 0, 7, 1, true, { Bukkit.getOnlinePlayers().toList() }) {
                 transform { player ->
@@ -26,11 +30,10 @@ class XrayAbility: ItemAbility(Items.xray.clone()) {
                         meta.displayName(player.displayName())
                         (meta as SkullMeta).owningPlayer = player
                     }
-                    onClickItem { _, _, (player, _), _ ->
-                        player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 600, 1))
-                        e.item!!.amount--
-                    }
                     head
+                }
+                onClickItem { _, _, (player, _), _ ->
+                    player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 600, 1))
                 }
             }.also { list ->
                 slot(0, 0) {
