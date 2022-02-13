@@ -29,7 +29,7 @@ class SkellySwordAbility: ItemAbility(Items.skellySword) {
             e.player.sendActionBar(text().color(NamedTextColor.RED).content("You can't use this yet").build())
             return
         }
-        val result = e.player.world.rayTraceEntities(e.player.location, e.player.eyeLocation.direction, 25.0) { it != e.player }
+        val result = e.player.world.rayTraceEntities(e.player.eyeLocation, e.player.eyeLocation.direction, 25.0) { it != e.player }
         val entity = result?.hitEntity ?: return
         if (e.action != Action.RIGHT_CLICK_AIR && e.action != Action.RIGHT_CLICK_BLOCK) return
         e.player.setCooldown(Material.DIAMOND_SWORD, 2 * 60 * 20)

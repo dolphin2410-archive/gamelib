@@ -26,8 +26,13 @@ class FurnaceAbility: BlockAbility<String, Int>(Items.ultimateFurnace) {
 
     override fun onDrop(e: BlockDropItemEvent) {
         println("Dropped")
-        e.items.removeIf { it.itemStack.isSimilar(ItemStack(Material.FURNACE)) }
-        e.items.add(e.player.world.dropItemNaturally(e.player.location, item.clone().apply {
+        e.items.forEach {
+            if (it.itemStack.type == Material.FURNACE) {
+                it.itemStack.amount--
+                return@forEach
+            }
+        }
+        e.items.add(e.player.world.dropItemNaturally(e.block.location, item.clone().apply {
             editMeta { meta ->
                 meta.persistentDataContainer.set(NamespacedKey.minecraft("uses_left"), PersistentDataType.INTEGER, placedBlocks[e.block]!!.get("uses_left"))
             }

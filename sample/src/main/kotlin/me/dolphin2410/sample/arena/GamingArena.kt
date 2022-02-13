@@ -4,9 +4,11 @@ import me.dolphin2410.gamelib.GameLibAPI
 import me.dolphin2410.gamelib.land.Arena
 import me.dolphin2410.sample.SampleGame
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.Title.title
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -62,22 +64,30 @@ class GamingArena: Arena(Bukkit.getWorld("world")!!), Listener {
         objective.getScore("Time Left").score = 5
 
         val teamPvp = scoreboard.registerNewTeam("leftTime")
-        teamPvp.addEntry("s")
-        teamPvp.prefix(text("${leftTime / 60}"))
-        objective.getScore("s").score = 4
+        teamPvp.addEntry("${ChatColor.GREEN}")
+        teamPvp.prefix(text("${leftTime / 60}m"))
+        objective.getScore("${ChatColor.GREEN}").score = 4
 
         objective.getScore("Pvp Time Left").score = 3
         val teamFull = scoreboard.registerNewTeam("pvpLeftTime")
-        teamFull.addEntry("s")
-        teamFull.prefix(text("${pvpTime / 60}"))
-        objective.getScore("s").score = 2
+        teamFull.addEntry("${ChatColor.RED}")
+        teamFull.prefix(text("${pvpTime / 60}m"))
+        objective.getScore("${ChatColor.RED}").score = 2
 
         player.scoreboard = scoreboard
 
         return object: BukkitRunnable() {
             override fun run() {
-                scoreboard.getTeam("leftTime")!!.prefix(text("${leftTime / 60}"))
-                scoreboard.getTeam("pvpLeftTime")!!.prefix(text("${pvpTime / 60}"))
+                if (leftTime > 60) {
+                    scoreboard.getTeam("leftTime")!!.prefix(text("${leftTime / 60}"))
+                } else {
+                    scoreboard.getTeam("leftTime")!!.prefix(text("${leftTime}s"))
+                }
+                if (pvpTime > 60) {
+                    scoreboard.getTeam("pvpLeftTime")!!.prefix(text("${pvpTime / 60}"))
+                } else {
+                    scoreboard.getTeam("pvpLeftTime")!!.prefix(text("${pvpTime}s"))
+                }
                 leftTime--
                 if (pvpTime > 0) {
                     pvpTime--
@@ -85,7 +95,12 @@ class GamingArena: Arena(Bukkit.getWorld("world")!!), Listener {
                 if (pvpTime == 0) {
                     SampleGame.pvp = true
                     Bukkit.getOnlinePlayers().forEach {
-                        it.sendActionBar(text("Pvp Allowed"))
+                        it.sendActionBar(text("Pvp Allowed", NamedTextColor.RED))
+                        object: BukkitRunnable() {
+                            override fun run() {
+                                it.sendActionBar(text(""))
+                            }
+                        }.runTaskLater(GameLibAPI.plugin, 100)
                     }
                 }
                 if (leftTime == 0) {

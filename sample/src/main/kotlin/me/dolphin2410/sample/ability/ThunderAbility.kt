@@ -17,7 +17,7 @@ class ThunderAbility: ItemAbility(Items.lightningWand.clone()) {
     }
 
     override fun onClick(e: PlayerInteractEvent) {
-        val result = e.player.world.rayTraceEntities(e.player.location, e.player.eyeLocation.direction, 25.0) { it != e.player }
+        val result = e.player.world.rayTraceEntities(e.player.eyeLocation, e.player.eyeLocation.direction, 25.0) { it != e.player }
         val entity = result?.hitEntity ?: return
         e.item!!.amount--
         if (entity is Item) {
